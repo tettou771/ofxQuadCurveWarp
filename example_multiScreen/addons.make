@@ -1,0 +1,5 @@
+ofxOpenCv
+ofxQuadCurveWarp
+ofxQuadWarp
+ofxUI
+ofxXmlSettings
