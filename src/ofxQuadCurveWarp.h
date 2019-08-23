@@ -71,6 +71,9 @@ public:
 	// enable / diable control
 	void mouseKeyboardEnable();
 	void mouseKeyboardDisable();
+	void setMouseKeyboardEnabled(bool enabled);
+	void mouseKeyboardToggle();
+	bool getMouseKeyboardEnabled();
 
 	string getName() {
 		return name;
@@ -170,6 +173,9 @@ private:
 
 	// hit collider size
 	float mouseHitSize;
+
+	// mouse keyboard enabled state
+	bool mouseKeyboardEnabled = false;
 
 	// change selection in edit mode
 	enum Direction {

@@ -118,6 +118,9 @@ void ofxQuadCurveWarp::load(string path) {
 }
 
 void ofxQuadCurveWarp::mouseKeyboardEnable() {
+	if (mouseKeyboardEnabled) return;
+	mouseKeyboardEnabled = true;
+
 	ofRegisterKeyEvents(this);
 	ofRegisterMouseEvents(this);
 
@@ -126,10 +129,33 @@ void ofxQuadCurveWarp::mouseKeyboardEnable() {
 }
 
 void ofxQuadCurveWarp::mouseKeyboardDisable() {
+	if (!mouseKeyboardEnabled) return;
+	mouseKeyboardEnabled = false;
+
 	ofUnregisterKeyEvents(this);
 	ofUnregisterMouseEvents(this);
 
 	editModeChange(NoEdit);
+}
+
+void ofxQuadCurveWarp::setMouseKeyboardEnabled(bool enabled) {
+	if (mouseKeyboardEnabled == enabled) return;
+	mouseKeyboardEnabled = enabled;
+
+	if (mouseKeyboardEnabled) {
+		mouseKeyboardEnable();
+	}
+	else {
+		mouseKeyboardDisable();
+	}
+}
+
+void ofxQuadCurveWarp::mouseKeyboardToggle() {
+	setMouseKeyboardEnabled(!mouseKeyboardEnabled);
+}
+
+bool ofxQuadCurveWarp::getMouseKeyboardEnabled() {
+	return mouseKeyboardEnabled;
 }
 
 void ofxQuadCurveWarp::keyPressed(ofKeyEventArgs& key) {
