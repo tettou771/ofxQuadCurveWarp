@@ -157,7 +157,7 @@ private:
 	// miniWarper (warper cell)
 	struct LinkedWarper {
 		ofxQuadWarp warper;
-		ofVec3f *linkVertex[4];
+		WarperVertex *linkVertex[4];
 		ofMatrix4x4 warperMatrix;
 	};
 	vector<LinkedWarper *> linkedWarpers;

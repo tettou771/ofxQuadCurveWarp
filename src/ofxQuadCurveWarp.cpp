@@ -139,10 +139,7 @@ void ofxQuadCurveWarp::mouseKeyboardDisable() {
 }
 
 void ofxQuadCurveWarp::setMouseKeyboardEnabled(bool enabled) {
-	if (mouseKeyboardEnabled == enabled) return;
-	mouseKeyboardEnabled = enabled;
-
-	if (mouseKeyboardEnabled) {
+	if (enabled) {
 		mouseKeyboardEnable();
 	}
 	else {
@@ -406,10 +403,10 @@ void ofxQuadCurveWarp::divisionChanged() {
 				l->warper.setup();
 				ofRectangle miniSourceRect(w->source.x - gridWidth, w->source.y - gridHeight, gridWidth, gridHeight);
 				l->warper.setSourceRect(miniSourceRect);
-				l->linkVertex[0] = &warperVertexes[(ix - 1) * (divisionY + 1) + (iy - 1)]->target;
-				l->linkVertex[1] = &warperVertexes[(ix) * (divisionY + 1) + (iy - 1)]->target;
-				l->linkVertex[2] = &warperVertexes[(ix) * (divisionY + 1) + (iy)]->target;
-				l->linkVertex[3] = &warperVertexes[(ix - 1) * (divisionY + 1) + (iy)]->target;
+				l->linkVertex[1] = warperVertexes[(ix) * (divisionY + 1) + (iy - 1)];
+				l->linkVertex[2] = warperVertexes[(ix) * (divisionY + 1) + (iy)];
+				l->linkVertex[3] = warperVertexes[(ix - 1) * (divisionY + 1) + (iy)];
+				l->linkVertex[0] = warperVertexes[(ix - 1) * (divisionY + 1) + (iy - 1)];
 				l->warper.disableKeyboardShortcuts();
 				l->warper.disableMouseControls();
 				linkedWarpers.push_back(l);
@@ -454,6 +451,16 @@ void ofxQuadCurveWarp::sourceChanged() {
 			sourceRect.y + sourceRect.height * w->sourceCoord.y, 0);
 	}
 
+	// update linked warper's source position
+	for (auto l : linkedWarpers) {
+		ofRectangle sourceRect;
+		sourceRect.x = l->linkVertex[0]->source.x;
+		sourceRect.y = l->linkVertex[0]->source.y;
+		sourceRect.width = l->linkVertex[1]->source.x - l->linkVertex[0]->source.x;
+		sourceRect.height = l->linkVertex[3]->source.y - l->linkVertex[0]->source.y;
+		l->warper.setSourceRect(sourceRect);
+	}
+
 	masterWarperChanged();
 }
 
@@ -476,7 +483,7 @@ void ofxQuadCurveWarp::targetOffsetChanged() {
 	// update linkedWarpers
 	for (auto l : linkedWarpers) {
 		for (int i = 0; i < 4; ++i) {
-			l->warper.setCorner(*l->linkVertex[i], i);
+			l->warper.setCorner(l->linkVertex[i]->target, i);
 		}
 		l->warperMatrix = l->warper.getMatrix();
 	}
