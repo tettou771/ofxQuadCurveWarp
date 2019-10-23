@@ -39,6 +39,10 @@ void ofxQuadCurveWarp::draw(ofTexture* _texture) {
 	ofTexture* drawTexture = nullptr;
 	if (_texture != nullptr) drawTexture = _texture;
 	else if (texturePtr != nullptr) drawTexture = texturePtr;
+	if (drawTexture == nullptr) {
+		ofDrawBitmapString("No subsectionScreen error", 10, 20);
+		return;
+	}
 
 	ofPushStyle();
 	ofSetColor(255);
@@ -88,6 +92,10 @@ void ofxQuadCurveWarp::setDivision(int _divisionX, int _divisionY) {
 void ofxQuadCurveWarp::setSourceRect(ofRectangle& _sourceRect) {
 	sourceRect.set(_sourceRect);
 	sourceChanged();
+}
+
+ofRectangle ofxQuadCurveWarp::getSourceRect() {
+	return sourceRect;
 }
 
 void ofxQuadCurveWarp::setTargetRect(ofRectangle& _targetRect) {

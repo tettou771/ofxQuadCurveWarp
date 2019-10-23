@@ -39,6 +39,7 @@ public:
 	// set source rectangle
 	// it can trim from source texture
 	void setSourceRect(ofRectangle & _sourceRect);
+	ofRectangle getSourceRect();
 
 	// set target rectangle
 	// it is based with ofxQuadWarp 
