@@ -25,11 +25,13 @@ public:
 	void mouseExited(ofMouseEventArgs &mouse) {};
 
 	void setup(string _name = "");
-	void draw(ofTexture *_texture = nullptr);
+	void draw(ofTexture *_texture = nullptr, ofColor _color = ofColor::white);
 
 	// set texture pointer that drawed with warper
 	void setTexture(ofTexture *_texturePtr);
 	void setTexture(ofTexture *_texturePtr, ofRectangle & _sourceRect);
+
+	ofTexture* getTexture();
 
 	// set division (warping grid num)
 	void setDivision(int _divisionX, int _divisionY);

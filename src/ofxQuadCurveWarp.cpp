@@ -35,7 +35,7 @@ void ofxQuadCurveWarp::setup(string _name) {
 	tightness = minTightness;
 }
 
-void ofxQuadCurveWarp::draw(ofTexture* _texture) {
+void ofxQuadCurveWarp::draw(ofTexture* _texture, ofColor _color) {
 	ofTexture* drawTexture = nullptr;
 	if (_texture != nullptr) drawTexture = _texture;
 	else if (texturePtr != nullptr) drawTexture = texturePtr;
@@ -45,7 +45,7 @@ void ofxQuadCurveWarp::draw(ofTexture* _texture) {
 	}
 
 	ofPushStyle();
-	ofSetColor(255);
+	ofSetColor(_color);
 	if (drawTexture != nullptr) drawWithWarper(*drawTexture);
 
 	switch (editMode) {
@@ -81,6 +81,10 @@ void ofxQuadCurveWarp::setTexture(ofTexture* _texturePtr, ofRectangle& _sourceRe
 		sourceRect = _sourceRect;
 		sourceChanged();
 	}
+}
+
+ofTexture* ofxQuadCurveWarp::getTexture() {
+	return texturePtr;
 }
 
 void ofxQuadCurveWarp::setDivision(int _divisionX, int _divisionY) {
