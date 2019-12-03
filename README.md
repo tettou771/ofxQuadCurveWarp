@@ -9,7 +9,7 @@ I made it to projection mapping.
 
 ofxOpenCv
 
-ofxQuadWarp
+http://github.com/tettou771/ofxQuadWarp
 
 ## Tested system
 
