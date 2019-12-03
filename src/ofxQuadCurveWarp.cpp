@@ -6,6 +6,7 @@ ofxQuadCurveWarp::ofxQuadCurveWarp() {
 }
 
 ofxQuadCurveWarp::~ofxQuadCurveWarp() {
+	mouseKeyboardDisable();
 }
 
 
@@ -17,6 +18,7 @@ void ofxQuadCurveWarp::setup(string _name) {
 	auto targetRect = ofRectangle(100, 100, 500, 500);
 	masterWarper.setSourceRect(sourceRect);
 	masterWarper.setTargetRect(targetRect);
+	masterWarper.hide();
 
 	// division num (grid num)
 	divisionX = 16;
@@ -146,6 +148,8 @@ void ofxQuadCurveWarp::mouseKeyboardDisable() {
 
 	ofUnregisterKeyEvents(this);
 	ofUnregisterMouseEvents(this);
+	masterWarper.disableMouseControls();
+	masterWarper.disableKeyboardShortcuts();
 
 	editModeChange(NoEdit);
 }
@@ -465,12 +469,12 @@ void ofxQuadCurveWarp::sourceChanged() {
 
 	// update linked warper's source position
 	for (auto l : linkedWarpers) {
-		ofRectangle sourceRect;
-		sourceRect.x = l->linkVertex[0]->source.x;
-		sourceRect.y = l->linkVertex[0]->source.y;
-		sourceRect.width = l->linkVertex[1]->source.x - l->linkVertex[0]->source.x;
-		sourceRect.height = l->linkVertex[3]->source.y - l->linkVertex[0]->source.y;
-		l->warper.setSourceRect(sourceRect);
+		ofRectangle lSourceRect;
+		lSourceRect.x = l->linkVertex[0]->source.x;
+		lSourceRect.y = l->linkVertex[0]->source.y;
+		lSourceRect.width = l->linkVertex[1]->source.x - l->linkVertex[0]->source.x;
+		lSourceRect.height = l->linkVertex[3]->source.y - l->linkVertex[0]->source.y;
+		l->warper.setSourceRect(lSourceRect);
 	}
 
 	masterWarperChanged();
@@ -617,6 +621,7 @@ void ofxQuadCurveWarp::nudge(ofVec2f move) {
 void ofxQuadCurveWarp::drawWarper(ofxQuadWarp* w) {
 	ofSetColor(0, 255, 0);
 	w->drawQuadOutline();
+	w->drawRotateHandle();
 	ofFill();
 	w->drawCorners();
 	ofSetColor(0, 255, 0);
