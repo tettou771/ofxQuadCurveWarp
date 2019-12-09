@@ -137,6 +137,8 @@ void ofxQuadCurveWarp::mouseKeyboardEnable() {
 
 	ofRegisterKeyEvents(this);
 	ofRegisterMouseEvents(this);
+	masterWarper.enableMouseControls();
+	masterWarper.enableKeyboardShortcuts();
 
 	if (editMode != MasterWarper) editModeChange(MasterWarper);
 	else editModeChange(Flexible);
