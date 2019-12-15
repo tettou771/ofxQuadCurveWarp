@@ -82,6 +82,10 @@ public:
 		return name;
 	}
 
+	void setName(string _name) {
+		name = _name;
+	}
+
 	enum DrawMode {
 		TriangleMesh,
 		MicroWarper
