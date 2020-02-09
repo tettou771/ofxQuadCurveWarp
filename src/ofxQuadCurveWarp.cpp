@@ -109,6 +109,34 @@ void ofxQuadCurveWarp::setTargetRect(ofRectangle& _targetRect) {
 	divisionChanged();
 }
 
+bool ofxQuadCurveWarp::isAnyPointSelected() {
+	return getSelectedPointPtr() != nullptr;
+}
+
+ofPoint ofxQuadCurveWarp::getSelectedPointPos() {
+	auto p = getSelectedPointPtr();
+	if (p) return *p;
+	else return ofPoint();
+}
+
+void ofxQuadCurveWarp::setSelectedPointPos(ofPoint _pos) {
+	auto p = getSelectedPointPtr();
+	if (p) {
+		p->set(_pos);
+
+		switch (editMode) {
+		case MasterWarper:
+			masterWarperChanged();
+			break;
+		case Flexible:
+		case Gaussian:
+		case Point:
+			targetOffsetChanged();
+			break;
+		}
+	}
+}
+
 void ofxQuadCurveWarp::save() {
 	save("ofxQuadCurveWarpSettings_" + name + ".xml");
 }
@@ -389,6 +417,31 @@ void ofxQuadCurveWarp::selectHoveredVertex() {
 	}
 
 	flexibleEditTypeStr_select = flexibleEditTypeStr_hobar;
+}
+
+ofPoint* ofxQuadCurveWarp::getSelectedPointPtr() {
+	switch (editMode) {
+	case MasterWarper:
+	{
+		return masterWarper.getSelectedPoint();
+	}
+	break;
+
+	case Point:
+	{
+		for (auto w : warperVertexes) {
+			if (w->getSelectedFactor(tightness) == 1.0) {
+				return &w->targetOffset;
+			}
+		}
+		return nullptr;
+	}
+	break;
+
+	default:
+		return nullptr;
+		break;
+	}
 }
 
 void ofxQuadCurveWarp::divisionChanged() {

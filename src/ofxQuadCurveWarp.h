@@ -59,6 +59,11 @@ public:
 		return tightness;
 	}
 
+	// selected point
+	bool isAnyPointSelected();
+	ofPoint getSelectedPointPos();
+	void setSelectedPointPos(ofPoint _pos);
+
 	// save warping parametors
 	void save();
 	void save(string path);
@@ -160,6 +165,7 @@ private:
 	WarperVertex* selectedWarperVertex = nullptr;
 	void hoverWarperVertex(WarperVertex* hovered);
 	void selectHoveredVertex();
+	ofPoint* getSelectedPointPtr();
 
 	// miniWarper (warper cell)
 	struct LinkedWarper {
