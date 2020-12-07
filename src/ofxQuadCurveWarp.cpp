@@ -69,7 +69,13 @@ void ofxQuadCurveWarp::draw(ofTexture* _texture, ofColor _color) {
 }
 
 void ofxQuadCurveWarp::setTexture(ofTexture* _texturePtr) {
-	ofRectangle newSourceRect = ofRectangle(0, 0, _texturePtr->getWidth(), _texturePtr->getHeight());
+	ofRectangle newSourceRect;
+	if (_texturePtr->texData.textureTarget == GL_TEXTURE_2D) {
+		newSourceRect = ofRectangle(0, 0, 1, 1);
+	}
+	else {
+		newSourceRect = ofRectangle(0, 0, _texturePtr->getWidth(), _texturePtr->getHeight());
+	}
 	setTexture(_texturePtr, newSourceRect);
 }
 
